@@ -113,6 +113,7 @@ tidy2 <- messy2 %>% gather(key = "roadtype", value = "mpg")
 ```
 
 ![](../images/messyvstidy4.png)
+
 The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row.  The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
 
 ```{r, echo = TRUE}
