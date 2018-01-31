@@ -3,7 +3,7 @@ Using `tidyr::gather()` to tidy data
 Joyce Robbins
 1/31/2018
 
-This tutorial focuses on one function: `tidyr::gather()`, which is used to convert data from messy to tidy. I won't get into the distinction here; I'm going to assume that you know that you know the terms; you just need help figuring how to get from one to the other. If, however, this is all new to you, I suggest reading ["Tidy Data"](https://www.jstatsoft.org/article/view/v059i10) by Hadley Wickham, the seminal paper on the topic which lays out the concept in detail.
+This tutorial focuses on one function: `tidyr::gather()`, which is used to convert data from messy to tidy. I won't get into the distinction here -- I'm going to assume that you know that you know the terms and just need help figuring how to get from A to B. If, however, this is all new to you, I suggest reading ["Tidy Data"](https://www.jstatsoft.org/article/view/v059i10) by Hadley Wickham, the seminal paper on the topic, which lays out the concept in detail.
 
 ### Observe
 
