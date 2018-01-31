@@ -54,7 +54,7 @@ Nothing else needs to be specified: it is "understood" that every value in a col
 
 There are a few problems I've seen with the way in which people use `gather()`:
 
-1.  *Not separating the messy data columns properly into "keep" and "dump".*
+#### Not separating the messy data columns properly into "keep" and "dump".
 
 In this case, the result will be something like the following:
 
@@ -95,7 +95,7 @@ messydata %>% gather(key = "roadtype", value = "mpg", city, hwy)
 
 I find this method less intuitive, but of course it's your choice.
 
-1.  *Not adding an id column if one doesn't exist.*
+#### Missing *id* column
 
 Note in our example that the `id` column is important for linking the city and highway miles per gallon. For example, we might want to plot the data as follows, which requires knowing which car had which city and highway mpg:
 
@@ -122,9 +122,9 @@ messy2 %>% rownames_to_column("id") %>%
 
 Note that we must specify the "don't touch" id column that we just created. Also note that we used the default `key` and `value` column names rather than choose our own.
 
-1.  *Leaving out `key` and `value`*
+#### Leaving out `key` and `value`
 
-I don't know if this issue is as widespread as the others, but I'm going to include it since I've made this mistake one too many times. Working on the assumption that you can leave out parameters if you're don't change the defaults, if you're like me, you might try something like this:
+I don't know if this issue is as widespread as the others, but I'm going to include it since I've made this mistake one too many times. Working on the assumption that you can leave out parameters if you don't change the defaults, if you're like me, you might try something like this:
 
 ``` r
 messydata %>% gather(-id)
@@ -159,7 +159,7 @@ messydata %>% gather(key, value, -id)
     ## 5 car2  hwy    30.0
     ## 6 car3  hwy    35.0
 
-Challenge: Take the `painters` dataset from the **MASS** package and tidy it into four columns as such:
+Exercise: Take the `painters` dataset from the **MASS** package and tidy it into four columns as such:
 
 ``` r
 head(tidypaint)
