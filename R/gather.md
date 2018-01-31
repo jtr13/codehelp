@@ -9,7 +9,7 @@ This tutorial focuses on one function: `tidyr::gather()`, which is used to conve
 
 Before getting into the nitty-gritty of `gather()` let's study what our messy data looks like, and what it will look like when it's tidied:
 
-![](messyvstidy1.png)
+![](../images/messyvstidy1.png)
 
 Study the differences carefully. What did you observe? <br> <br> <br> Hopefully you noticed the following:
 
@@ -21,7 +21,7 @@ Study the differences carefully. What did you observe? <br> <br> <br> Hopefully 
 
 4.  As already noted, we have two new columns: `roadtype` and `mgp`, while `city` and `hwy` as columns are gone.
 
-![](messyvstidy2.png)
+![](../images/messyvstidy2.png)
 
 ### Plan
 
@@ -29,7 +29,7 @@ The first step before coding this transformation is to divide the columns in the
 
 The second (and final) step is to choose names for the new *key* and *value* columns. We've already chosen `roadtype` for *key*; let's pick `mpg` for *value*. You can also choose to stick with the defaults for the new *key* and *value* column names: `key` and `value` (surprise). Using `key` and `value` may be helpful at first to keep track of which is which, though ultimately I find more descriptive names to be more useful.
 
-![](messyvstidy3.png)
+![](../images/messyvstidy3.png)
 
 ### Code
 
@@ -103,7 +103,7 @@ Note in our example that the `id` column is important for linking the city and h
 
 Often, however, there is no `id` column: it's not necessary since each row represents one item -- a car in this case. If we try to tidy messy data without an id, it looks like this:
 
-![](messyvstidy4.png) The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row. The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
+![](../images/messyvstidy4.png) The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row. The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
 
 ``` r
 messy2 %>% rownames_to_column("id") %>% 
@@ -173,4 +173,4 @@ head(tidypaint)
     ## 5     Fr. Penni      A Composition     0
     ## 6 Guilio Romano      A Composition    15
 
-[Solution](Solution.md)
+[Solution](Solution1.md)

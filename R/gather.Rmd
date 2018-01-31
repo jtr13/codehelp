@@ -29,7 +29,7 @@ tidydata <- messydata %>% gather(key = "roadtype",
                                  value = "mpg", -id)
 ```
 
-![](messyvstidy1.png)
+![](../images/messyvstidy1.png)
 
 Study the differences carefully.  What did you observe?
 <br>
@@ -45,7 +45,7 @@ Hopefully you noticed the following:
 
 4. As already noted, we have two new columns: `roadtype` and `mgp`, while `city` and `hwy` as columns are gone.
 
-![](messyvstidy2.png)
+![](../images/messyvstidy2.png)
 
 ### Plan
 
@@ -53,7 +53,7 @@ The first step before coding this transformation is to divide the columns in the
 
 The second (and final) step is to choose names for the new *key* and *value* columns.  We've already chosen `roadtype` for *key*; let's pick `mpg` for *value*.  You can also choose to stick with the defaults for the new *key* and *value* column names: `key` and `value` (surprise).  Using `key` and `value` may be helpful at first to keep track of which is which, though ultimately I find more descriptive names to be more useful.
 
-![](messyvstidy3.png)
+![](../images/messyvstidy3.png)
 
 ### Code
 
@@ -112,7 +112,7 @@ messy2 <- messydata %>% select("city", "hwy")
 tidy2 <- messy2 %>% gather(key = "roadtype", value = "mpg")
 ```
 
-![](messyvstidy4.png)
+![](../images/messyvstidy4.png)
 The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row.  The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
 
 ```{r, echo = TRUE}
@@ -148,4 +148,4 @@ tidypaint <- painters %>% rownames_to_column("Name") %>%
 head(tidypaint)
 ```
 
-[Solution](Solution.md)
+[Solution](Solution1.md)
