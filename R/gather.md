@@ -75,7 +75,7 @@ messydata %>% gather(key = "roadtype", value = "mpg")
     ## 8 hwy      30   
     ## 9 hwy      35
 
-Yikes, not what we wanted. Looking at the "mpg" column, we see that "car1", "car2", and "car3" don't belong. The solution is to add the `-id` parameter.
+Yikes, not what we wanted. Looking at the "mpg" column, we see that "car1", "car2", and "car3" don't belong. The solution is to add the `-id` parameter -- remember, think: "don't touch `id`" so that it isn't "dumped" into the `key` column.
 
 Note: it is possible to specify the columns to *dump* rather then the columns to *keep*:
 
