@@ -39,21 +39,28 @@ Hopefully you noticed the following:
 
 1. The `id` column appears in both versions, though it's double the length in the tidy form.
 
-2. The `city` and `hwy` column names became the contents of the new `roadtype` column.
+2. We have two new columns: `roadtype` and `mpg`.
 
-3. The *values* of the `city` and `hwy` columns became the *values* of the new `mpg` column.
+3. The `city` and `hwy` column names became the contents of the new `roadtype` column.
 
-4. As already noted, we have two new columns: `roadtype` and `mgp`, while `city` and `hwy` as columns are gone.
+4. The *values* of the `city` and `hwy` columns became the *values* of the new `mpg` column.
+
+
 
 ![](../images/messyvstidy2.png)
+
 
 ### Plan
 
 The first step before coding this transformation is to divide the columns in the messy data set into two groups: those that we want to "keep as is", and those that we want to "dump" into the key column.  The ones to "dump" are the ones that aren't true variables but in fact are *levels* of another variable.  In this case, `city` and `hwy` should be levels of a new variable called `roadtype` (or something similar), according to the theory of tidy data. On the other hand, `id` should remain as is.
 
+![](../images/messyvstidy3.png)
+
 The second (and final) step is to choose names for the new *key* and *value* columns.  We've already chosen `roadtype` for *key*; let's pick `mpg` for *value*.  You can also choose to stick with the defaults for the new *key* and *value* column names: `key` and `value` (surprise).  Using `key` and `value` may be helpful at first to keep track of which is which, though ultimately I find more descriptive names to be more useful.
 
-![](../images/messyvstidy3.png)
+
+![](../images/messyvstidy4.png)
+
 
 ### Code
 
@@ -65,7 +72,8 @@ tidydata <- messydata %>%
   
 ```
 
-Let's consider the three parameters separately since they're not completely intuitive.
+Let's consider the three parameters separately. What's important to note is that *each corresponds to one of the columns in the tidy data set.*
+
 
 `key = "roadtype"` sounds like it's setting the *key* to a preexisting column called "roadtype", but that's not what's going on.  Rather, think of this as an instruction to *create a new key column and call it "roadtype".*
 
@@ -112,7 +120,7 @@ messy2 <- messydata %>% select("city", "hwy")
 tidy2 <- messy2 %>% gather(key = "roadtype", value = "mpg")
 ```
 
-![](../images/messyvstidy4.png)
+![](../images/messyvstidy5.png)
 
 The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row.  The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
 
