@@ -1,7 +1,7 @@
 ---
 title: "Using `tidyr::gather()` to tidy data"
 author: "Joyce Robbins"
-date: "1/31/2018"
+date: "originally published: 1/31/2018, last update: 2/1/2018"
 output: github_document
 ---
 
