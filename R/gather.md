@@ -3,6 +3,19 @@ Using `tidyr::gather()` to tidy data
 Joyce Robbins
 originally published: 1/31/2018, last update: 2/3/2018
 
+-   [Example 1: City vs. Highway](#example-1-city-vs.-highway)
+    -   [Observe](#observe)
+    -   [Plan](#plan)
+    -   [Code](#code)
+-   [Heads up](#heads-up)
+    -   [Not separating the messy data columns properly into "keep" and "dump".](#not-separating-the-messy-data-columns-properly-into-keep-and-dump.)
+    -   [Missing *id* column](#missing-id-column)
+    -   [Leaving out `key` and `value`](#leaving-out-key-and-value)
+-   [Example 2: `MASS::painters` dataset](#example-2-masspainters-dataset)
+    -   [Observe](#observe-1)
+    -   [Plan](#plan-1)
+    -   [Code](#code-1)
+
 This tutorial focuses on one function: `tidyr::gather()`, which is used to convert data from messy to tidy. I won't get into the distinction here -- I'm going to assume that you know the terms and just need help figuring how to get from A to B. If, however, this is all new to you, I suggest reading ["Tidy Data"](https://www.jstatsoft.org/article/view/v059i10) by Hadley Wickham, the seminal paper on the topic, which lays out the concept in detail.
 
 Example 1: City vs. Highway

@@ -2,7 +2,9 @@
 title: "Using `tidyr::gather()` to tidy data"
 author: "Joyce Robbins"
 date: "originally published: 1/31/2018, last update: 2/3/2018"
-output: github_document
+output: 
+  github_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
