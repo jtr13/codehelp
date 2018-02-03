@@ -229,13 +229,13 @@ This example is a little more complex than the previous one, since it's missing 
 
 ### Code
 
-    ##            Name School       Skill Score
-    ## 1      Da Udine      A Composition    10
-    ## 2      Da Vinci      A Composition    15
-    ## 3    Del Piombo      A Composition     8
-    ## 4     Del Sarto      A Composition    12
-    ## 5     Fr. Penni      A Composition     0
-    ## 6 Guilio Romano      A Composition    15
+``` r
+library(MASS)
+library(tidyverse)
+tidypaint <- painters %>% 
+  rownames_to_column("Name") %>% 
+  gather(key = "Skill", value = "Score", -Name, -School)
+```
 
 The breakdown:
 

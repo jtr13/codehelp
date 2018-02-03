@@ -192,14 +192,12 @@ This example is a little more complex than the previous one, since it's missing 
 
 ### Code
 
-```{r}
+```{r, echo = TRUE}
 library(MASS)
 library(tidyverse)
 tidypaint <- painters %>% 
   rownames_to_column("Name") %>% 
   gather(key = "Skill", value = "Score", -Name, -School)
-
-head(tidypaint)
 ```
 
 The breakdown:
