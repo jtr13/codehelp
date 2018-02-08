@@ -1,21 +1,23 @@
 Reorder those bars, once and for all, with **forcats**
 ================
 Joyce Robbins
-2/6/2018
+2/7/2018
 
 <img src = "../images/ggplot2SO.png" width = "500"></img>
 
-Since I happened to be preparing to teach, among other things, *how to reorder the bars in a bar chart* when I saw Claus Wilke's response, I thought I'd write my notes up as a tutorial.
+Since I happened to be preparing to teach, among other things, *how to reorder the bars in a bar chart* when I saw Claus Wilke's response, I figured this would be a good topic for a tutorial.
 
-My theory is that this is considered a troublesome topic because several different problems are conflated into one question. If you identify first what the issue is, it will be much easier to know what to do. And with **forcats** functions -- namely, `fct_inorder`, `fct_relevel`, `fct_reorder`, and `fct_infreq` -- it will become second nature to get the order of the bars right. If you don't want to, you don't have to change the data at all; all of the reordering happens in the calls to `ggplot()`.
+My theory is that this is a troublesome topic because several different problems are conflated into one question. If, however, you first identify *how* you want the bars ordered, and *why* they are not ordered, the road will be less rocky. And with [**forcats**](http://forcats.tidyverse.org/) (now a core [**tidyverse**](tidyverse.org) package) functions -- namely, `fct_inorder()`, `fct_relevel()`, `fct_reorder()`, and `fct_infreq()` -- it will become second nature to get the order of the bars right.
 
-There are two key situations that call for reordering:
+In the examples below, all of the reordering happens in the calls to `ggplot2` -- you don't have to change the data at all. In fact, you don't even have to have factor data. The **forcats** functions will convert character data to factor for plotting purposes only. However, if you prefer to change the data itself, of course, you can. See the U.S. births example below for an example on how to do so.
 
-### 1. Bars should appear in their natural order.
+There are two key rules to follow when deciding how to reorder bars in a bar chart:
 
-The levels or categories have a natural order to them (a.k.a. ordinal data), but they are appearing in the wrong order, that is, alphabetical order unless specified otherwise.
+### 1. Bars should appear in their natural order, if they have one.
 
-Example:
+If the levels or categories have a natural order to them (a.k.a. ordinal data), they should be plotted in that order. However, unless specified otherwise, whether your categories are stored as factor or character data, they will appear in alphabetical order in a bar chart (unless you changed around the levels of the factors).
+
+In this example, the levels have a natural order, from Beginner to Expert, that is not reflected in the plot:
 
 ``` r
 library(tidyverse)
@@ -57,9 +59,9 @@ ggplot(mydf, aes(fct_inorder(Skill), Num)) +
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
-#### (b) Only one\* category is out of order
+#### (b) Only one category is out of order
 
-Often there's just one level out of order. In the case below it's "Under 15 years":
+Often there's just one level out of order. In the case below it's "Under 15 years", which should be the first category in the chart, not the last:
 
 ``` r
 # 2015 U.S. Births
@@ -81,7 +83,7 @@ ggplot(Births2015, aes(MotherAge, Num)) +
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
-We can use `fct_relevel` from the [**forcats**](http://forcats.tidyverse.org) package to move it where it needs to go. Although the `MotherAge` variable is character data (the tibble default is `stringsAsFactors = FALSE`), it will be coerced to factor by `fct_relevel`.
+We can use `fct_relevel()` to move it where it needs to go:
 
 ``` r
 ggplot(Births2015, aes(fct_relevel(MotherAge, "Under 15 years"), Num)) + 
@@ -106,7 +108,9 @@ ggplot(Births2015, aes(MotherAge, Num)) +
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-\*Actually, we can use this technique for more than one category, as long as the categories we name all need to be moved to the same position:
+#### (c) Many categories are out of order
+
+As long as the categories that are out of order all need to be moved to the same place, we can use the same technique:
 
 ``` r
 x <- factor(c("A", "B", "C", "move1", "D", "E", "move2", "F"))
@@ -137,19 +141,21 @@ fct_relevel(x, "move1", "move2", after = Inf) # move to the end
     ## [1] A     B     C     move1 D     E     move2 F    
     ## Levels: A B C D E F move1 move2
 
+However, if they're all in a big jumble, the only solution is to manually reorder all of the levels with `fct_relevel()`.
+
 Some important notes:
 
 -   This problem has nothing to do with any other variable. There is simply a mismatch between the levels of the factors and the natural order of the categories.
 
 -   Don't be tempted to use ordered factors even though your data has ordered levels. The levels are ordered for *all* factors.
 
-### 2. Bars should be ordered by frequency count.
+### 2. Otherwise, bars should be ordered by frequency count.
 
-Ordering by frequency count is the recommended approach for nominal data, that is, categories that are not naturally ordered. However, the default again will be alphabetical, if not specified otherwise.
+Ordering by frequency count is the recommended approach for nominal data, that is, categories that are not naturally ordered.
 
 #### (a) Using `geom_col()`
 
-Once again, the bars are ordered alphabetically, which is not what we want:
+Once again, the default is for the bars to be ordered alphabetically, which is not what we want. (Since the bar chart is horizontal the categories are alphabetical from bottom to top.)
 
 ``` r
 weekend_gross <- tibble(movie = c("Jumanji", "Maze Runner", "Winchester",
@@ -158,19 +164,19 @@ weekend_gross <- tibble(movie = c("Jumanji", "Maze Runner", "Winchester",
 
 ggplot(weekend_gross, aes(movie, gross)) + 
   ggtitle("Weekend Box Office", subtitle = "Feb 2-4, 2018") + 
-  xlab("") + ylab("millions of dollars") +
+  ylab("millions of dollars") +
   geom_col(color = mycolor, fill = myfill) + coord_flip() + theme_grey(14)
 ```
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
-This issue can be addressed within the call to `ggplot()` with `fct_reorder()`, also from **forcats**; we do not have to actually reorder the factor levels"
+This issue can be addressed within the call to `ggplot()` with `fct_reorder()`, also from **forcats**; we do not have to actually reorder the factor levels.
 
 ``` r
 # note the change in the first line:
 ggplot(weekend_gross, aes(fct_reorder(movie, gross), gross)) +  
   ggtitle("Weekend Box Office", subtitle = "Feb 2-4, 2018") + 
-  xlab("") + ylab("millions of dollars") +
+  ylab("millions of dollars") +
   geom_col(color = mycolor, fill = myfill) + coord_flip() + theme_grey(14)
 ```
 
@@ -178,7 +184,7 @@ ggplot(weekend_gross, aes(fct_reorder(movie, gross), gross)) +
 
 Notes:
 
--   Although it appears that the bars are ordered from hightest to lowest frequency count, in fact, they are ordered from lowest to highest, and plotted from the bottom up in a horizontal bar chart. If the order is wrong, you can add a minus sign to the variable which determines the order: `fct_reorder(movie, -gross)`
+-   Although it appears that the bars are ordered from highest to lowest frequency count, in fact, they are ordered from lowest to highest, and plotted from the bottom up in a horizontal bar chart. If you need to reverse the order, you can add a minus sign to the variable which determines the order: `fct_reorder(movie, -gross)` or use `fct_reorder(movie, gross) %>% fct_rev()`.
 
 #### (b) Using `geom_bar()` -- data is unbinned
 
@@ -194,7 +200,7 @@ ggplot(unbinned, aes(response)) + geom_bar(color = mycolor, fill = myfill) +
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-Again the bars are ordered alphabetically by default, not in order of frequency. The solution is a third **forcats** function, `fct_infreq()`:
+Again the bars are ordered alphabetically by default, not in order of frequency. The solution is our fourth **forcats** function, `fct_infreq()`:
 
 ``` r
 ggplot(unbinned, aes(fct_infreq(response))) + geom_bar(color = mycolor, fill = myfill) +
@@ -203,8 +209,14 @@ ggplot(unbinned, aes(fct_infreq(response))) + geom_bar(color = mycolor, fill = m
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
-Thank you to Emily Zabor for convincing me to use **forcats**, and Jenny Bryan for pointing out `fct_infreq()`
+Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar chart.
 
-\*\*\* See "Be the boss of your factors"
+For more on best practices for bar charts, see:
 
-<http://stat545.com/block029_factors.html>
+Antony Unwin, "Displaying Categorical Data," *Graphical Data Analysis with R* (CRC Press: 2015).
+
+For more detail on **forcats** functions in general, see:
+
+Jenny Bryan, ["Be the boss of your factors"](http://stat545.com/block029_factors.html)
+
+Garrett Grolemund and Hadley Wickham, ["Factors" chapter](http://r4ds.had.co.nz/factors.html) in *R for Data Science*
