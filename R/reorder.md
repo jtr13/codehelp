@@ -209,7 +209,7 @@ ggplot(unbinned, aes(fct_infreq(response))) + geom_bar(color = mycolor, fill = m
 
 <img src="reorder_files/figure-markdown_github/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
-Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar chart.
+Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar charts (presumably not a coincidence).
 
 For more on best practices for bar charts, see:
 

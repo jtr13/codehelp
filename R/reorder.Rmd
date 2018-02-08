@@ -172,7 +172,7 @@ ggplot(unbinned, aes(fct_infreq(response))) + geom_bar(color = mycolor, fill = m
   theme_grey(14)
 ```
 
-Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar chart.
+Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar charts (presumably not a coincidence).
 
 For more on best practices for bar charts, see:
 
