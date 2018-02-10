@@ -174,6 +174,8 @@ ggplot(unbinned, aes(fct_infreq(response))) + geom_bar(color = mycolor, fill = m
 
 Note that `fct_infreq()` orders the levels in *decreasing* order of frequency, ideal for drawing bar charts (presumably not a coincidence).
 
+*Many thanks to Emily Zabor ( [\@zabormetrics](https://twitter.com/zabormetrics)) for convincing me to try `forcats` despite my initial reluctance.*
+
 For more on best practices for bar charts, see:
 
 Antony Unwin, "Displaying Categorical Data," *Graphical Data Analysis with R* (CRC Press: 2015).
