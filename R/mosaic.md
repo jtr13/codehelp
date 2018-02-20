@@ -1,10 +1,10 @@
-Top Ten Essential Tips for R Newbies
+Drawing a mosaic plot with `vcd::mosaic()`
 ================
 Joyce Robbins
 2/15/2018
 
-How to draw a mosaic plot with the `vcd` package
-------------------------------------------------
+The Data
+--------
 
 ``` r
 df <- read.csv("../data/MusicIcecream.csv")
@@ -86,7 +86,7 @@ Note that the direction vector is in order of splits (`Age`, `Music`, `Favorite`
 
 ### Options
 
-Fill color:
+#### Fill color:
 
 ``` r
 library(grid) # needed for gpar
@@ -97,7 +97,7 @@ mosaic(Favorite ~ Age + Music,
 
 <img src="mosaic_files/figure-markdown_github/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
-Rotate labels:
+#### Rotate labels:
 
 ``` r
 mosaic(Favorite ~ Age + Music, 
@@ -108,3 +108,41 @@ mosaic(Favorite ~ Age + Music,
 <img src="mosaic_files/figure-markdown_github/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 The `rot_labels =` vector sets the rotation in degrees on the four sides of the plot in this order: *top, right, bottom, left*. (Different from the typical base graphics order!) The default is `rot_labels = c(0, 90, 0, 90)`.
+
+#### Abbreviate labels:
+
+``` r
+mosaic(Favorite ~ Age + Music, 
+       labeling = labeling_border(abbreviate_labs = c(3, 1, 6)), 
+       df)
+```
+
+<img src="mosaic_files/figure-markdown_github/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+Labels are abbreviated in the order of the splits (as for `direction =`). The abbreviation algorithm appears to return the specified number of characters after vowels are eliminated (if necessary).
+
+For more formatting options, see `>?vcd::labeling_border`.
+
+#### Remove spacing between cells
+
+``` r
+mosaic(Favorite ~ Age + Music,
+       spacing = spacing_equal(sp = unit(0, "lines")),
+       df)
+```
+
+<img src="mosaic_files/figure-markdown_github/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+
+For more details, see `>?vcd::spacings`
+
+#### Change border color (must also set fill(?))
+
+``` r
+mosaic(Favorite ~ Age + Music,
+       gp = gpar(fill = c("lightblue", "blue"),
+                 col = "white"),
+       spacing = spacing_equal(sp = unit(0, "lines")),
+       df)
+```
+
+<img src="mosaic_files/figure-markdown_github/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
