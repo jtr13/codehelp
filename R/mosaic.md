@@ -146,3 +146,5 @@ mosaic(Favorite ~ Age + Music,
 ```
 
 <img src="mosaic_files/figure-markdown_github/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+
+Please feel free to suggest changes by submitting a pull request or ask questions / offer comments by opening an issue.

@@ -125,3 +125,4 @@ mosaic(Favorite ~ Age + Music,
        df)
 ```
 
+Please feel free to suggest changes by submitting a pull request or ask questions / offer comments by opening an issue.
