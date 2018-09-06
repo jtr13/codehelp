@@ -6,3 +6,5 @@ Code tutorials
 [Reorder those bars tutorial](R/reorder.md)
 
 [Drawing a mosaic plot with `vcd::mosaic()` tutorial](R/mosaic.md)
+
+[R Base Graphics Cheatsheet](R/BaseGraphicsCheatsheet.pdf)
