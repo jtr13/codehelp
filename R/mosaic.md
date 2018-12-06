@@ -25,7 +25,9 @@ df
 
 It is best to draw mosaic plots incrementally: start with splitting on one variable and then add additional variables one at a time. The full mosaic plot will have one split per variable.
 
-Important: if your data is in a data frame (see above), **the count column must be called `Freq`**.
+Important: if your data is in a data frame (see above), **the count column must be called `Freq`**. (Other data structure options are tables, matrices -- for 2 variables -- or objects of class `structable` -- see `>?vcd::structable`.)
+
+Also note that all of these plots are drawn with **`vcd::mosaic()`** *not `mosaicplot()`*.
 
 Split on `Age` only:
 

@@ -1,0 +1,26 @@
+---
+title: "Top Ten Essential Tips for R Newbies"
+author: "Joyce Robbins"
+date: "2/15/2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.height = 3.5,
+                      fig.width = 5, fig.align = 'center',
+                      warning = FALSE, message = FALSE,
+                      cache = TRUE)
+```
+
+1. Tidyverse is not a package.
+2. Chunk Output Inline vs. Chunk Output in Console (= Plots in Plot Window)
+3. Size figures with fig.height and fig.width
+4. Not all packages are on CRAN. Go-to today: devtools::install_github
+5. ::
+6. If data doesn't appear,use data()
+7. Compiling to pdf / Word
+8. Don't get fancy in rmarkdown
+9. %>%
+10. 
+
+Bonus tip: Second monitor

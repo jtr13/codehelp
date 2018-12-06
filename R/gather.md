@@ -41,7 +41,7 @@ Study the differences carefully. What did you observe? <br> <br> <br> Hopefully 
 
 ### Plan
 
-Now here's the trick: the only parts we need to concern ourselves with are 1. and 2.: deciding which columns to keep unchanged, and what names to give the new columns, which are called the *key* and *value* columns.
+**Now here's the trick:** the only parts we need to concern ourselves with are 1. and 2.: deciding which columns to keep unchanged, and what names to give the new columns, which are called the *key* and *value* columns.
 
 The columns to keep are the ones that are already tidy. The ones to dump are the ones that aren't true variables but in fact are *levels* of another variable. In this case, `city` and `hwy` should be levels of a new variable called `roadtype` (or something similar), according to the theory of tidy data. On the other hand, `id` should remain as is.
 
@@ -74,7 +74,7 @@ Now let's look at them one at a time in more detail:
 
 `-id` is the piece that says "Don't touch my `id` column! Leave it as is!"
 
-Nothing else needs to be specified: every value in a column not marked "don't touch" will be moved to the *value* ("mpg") column, paired with its old column name (in this case "city" or "hwy") from the messy data set, which now appears in the *key* column.
+Nothing else needs to be specified: every value in a column not marked "don't touch" will be moved to the *value* ("mpg") column and automatically paired with its old column name (in this case "city" or "hwy") from the messy data set, which now appears in the *key* column.
 
 Heads up
 --------
@@ -104,7 +104,7 @@ messydata %>% gather(key = "roadtype", value = "mpg")
 
 Yikes, not what we wanted. Looking at the `mpg` column, we see that "car1", "car2", and "car3" don't belong. The solution is to add the `-id` parameter -- remember, think: "don't touch `id`" -- so that it isn't "dumped" into the `key` column.
 
-Note: it is possible to specify the columns to *dump* rather then the columns to *keep*:
+Note: it is possible to specify the columns to *dump* rather than the columns to *keep*:
 
 ``` r
 messydata %>% gather(key = "roadtype", value = "mpg", city, hwy)
@@ -128,11 +128,11 @@ Note in our example that the `id` column is important for linking the city and h
 
 ![](gather_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-Often, however, there is no `id` column: it's not necessary since each row represents one item -- a car in this case. If we try to tidy messy data without an id, it looks like this:
+Often, however, there is no `id` column: it's not necessary since each row represents one item--a car in this case. If we try to tidy messy data without an id, it looks like this:
 
 ![](../images/messyvstidy5.png)
 
-The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row. The solution here is to move the row names -- or row numbers in this case -- to a column to be used as an id:
+The problem is that we've lost the natural connection we had between city and highway for each car since the two values no longer reside in the same row. The solution here is to move the row names--or row numbers in this case--to a column to be used as an id:
 
 ``` r
 messy2 %>% rownames_to_column("id") %>% 
@@ -243,6 +243,6 @@ The breakdown:
 
 Finally, if the visuals aren't your style, here's a running commentary of the instructions:
 
-"Take the (messy) dataset `painters`. Move the contents of the rownames to a new column called `Name`. Now let's start tidying by gathering multiple columns into *key-value* pairs. Do this by creating a new *key* column called `Skill`. While you're at it, create a new *value* column called `Score`. Absolutely do not touch or change the `Name` and `School` columns (other than to replicate as necessary). It goes without saying that the four other column names will fill the new `Skill` column, and the values of those columns will fill the new `Score` column, since it's understood from what I've said already! Much appreciated!"
+"Take the (messy) dataset `painters`. Move the contents of the rownames to a new column called `Name`. Now let's start tidying by gathering multiple columns into *key-value* pairs. Do this by creating a new *key* column called `Skill`. While you're at it, create a new *value* column called `Score`. Absolutely do not touch or change the `Name` and `School` columns (other than to replicate as necessary). It goes without saying that the four other column names will fill the new `Skill` column, and the values of those columns will fill the new `Score` column, since it's understood from what I've said already! Much appreciated, `tidyr`!"
 
 Thank you to [@angelotrivelli](https://twitter.com/angelotrivelli) [@dch4n](https://twitter.com/@dch4n) [@jschoeley](https://twitter.com/jschoeley) [@jspncr\_](https://twitter.com/jspncr_) [@kierisi](https://twitter.com/kierisi) [@s\_lump](https://twitter.com/s_lump) for providing feedback and helpful suggestions in response to [this Twitter post.](https://twitter.com/jtrnyc/status/958845845385940993)

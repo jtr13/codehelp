@@ -1,0 +1,39 @@
+---
+title: "basevsforcats"
+author: "Joyce Robbins"
+date: "2/8/2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### `fct_inorder()`
+```{r}
+library(forcats)
+mydf <- data.frame(Skill = c("Beginner", "Adv Beginner", "Intermediate", "Expert"),
+               Num = c(75, 60, 15, 25))
+
+levels(fct_inorder(mydf$Skill)) == levels(factor(mydf$Skill, levels = mydf$Skill))
+```
+
+### `fct_relevel()`
+
+```{r}
+MotherAge <-  c("15-19 years", "20-24 years", "25-29 years", 
+                "30-34 years", "35-39 years", "40-44 years",
+                "45-49 years", "50 years and over", "Under 15 years")
+
+Num <- c(229.715, 850.509, 1152.311, 1094.693, 527.996, 111.848,
+         8.171, .754, 2.500)
+
+Births2015 <- data.frame(MotherAge, Num)
+
+levels(fct_relevel(Births2015$MotherAge, "Under 15 years")) == levels(relevel(Births2015$MotherAge, "Under 15 years"))
+```
+
+fct_inorder(x) = factor(x, levels = x)
+fct_relevel(x, "a") = relevel(x, "a") but fct_relevel has after= param and ability to handle more than one level
+fct_reorder(x, y) = reorder(x,y) (no diff)
+fct_infreq(x) = factor(x, levels = names(sort(summary(factor(x)), decreasing = TRUE)))

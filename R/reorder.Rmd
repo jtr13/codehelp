@@ -2,7 +2,7 @@
 title: "Reorder those bars, once and for all, with **forcats**"
 author: "Joyce Robbins"
 date: "2/7/2018"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -18,9 +18,36 @@ Since I happened to be preparing to teach, among other things, *how to reorder t
 
 My theory is that this is a troublesome topic because several different problems are conflated into one question.  If, however, you first identify *how* you want the bars ordered, and *why* they are not ordered, the road will be less rocky. And with [**forcats**](http://forcats.tidyverse.org/) (now a core [**tidyverse**](tidyverse.org) package) functions -- namely, `fct_inorder()`, `fct_relevel()`, `fct_reorder()`, and `fct_infreq()` -- it will become second nature to get the order of the bars right. 
 
-In the examples below, all of the reordering happens in the calls to `ggplot2` -- you don't have to change the data at all.  In fact, you don't even have to have factor data. The **forcats** functions will convert character data to factor for plotting purposes only. However, if you prefer to change the data itself, of course, you can.  See the U.S. births example below for an example on how to do so.
+Before getting into reordering, it's important to understand R defaults, which happen to be the same for base R and **ggplot2**. For *factor* data, the default is for the bars to be plotted in the order of the factor levels. This applies to *ordered* and *non-ordered* factors--*all* types of factors have ordered levels. *Character* data, in contrast, is plotted in alphabetical order by default. Check what you have with `str()`.
 
-There are two key rules to follow when deciding how to reorder bars in a bar chart:
+```{r}
+library(tidyverse)
+mycolor <- "#002448"; myfill = "#7192E3"
+
+df <- tibble(chardata = c("cold", "warm", "hot", "hot", "warm", "warm", "cold", "cold", "cold"), 
+    factordata = factor(c("cold", "warm", "hot", "hot", "warm", "warm", "cold", "cold", "cold"), 
+                                 levels = c("cold", "warm", "hot")))
+
+str(df)
+```
+
+```{r, echo = FALSE, fig.width = 3, fig.height = 2,  out.width='.2\\textwidth'}
+
+ggplot(df, aes(chardata)) +
+  geom_bar(color = mycolor, fill = myfill) + 
+  ggtitle("Default: character data in alphabetical order") +
+  theme_grey(14)
+
+ggplot(df, aes(factordata)) +
+  geom_bar(color = mycolor, fill = myfill) + 
+  ggtitle("Default: factor data in factor level order") +
+  theme_grey(14)
+
+```
+
+In the examples below, all of the reordering happens in the calls to `ggplot2`, which means that you don't have to alter your data at all to achieve the desired effect.  In fact, you don't even have to have to convert your character data to factor data before plotting. The **forcats** functions will perform the conversion for plotting purposes only. However, if you prefer to change the data itself, of course, you can.  See the U.S. births example below for an example on how to do so.
+
+Now, there are two key rules to follow when deciding how to reorder bars in a bar chart:
 
 ### 1. Bars should appear in their natural order, if they have one.
 
@@ -29,9 +56,6 @@ If the levels or categories have a natural order to them (a.k.a. ordinal data), 
 In this example, the levels have a natural order, from Beginner to Expert, that is not reflected in the plot:
 
 ```{r}
-library(tidyverse)
-mycolor <- "#002448"; myfill = "#7192E3"
-
 mydf <- tibble(Skill = c("Beginner", "Adv Beginner", "Intermediate", "Expert"),
                Num = c(75, 60, 15, 25))
 
