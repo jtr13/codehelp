@@ -1,6 +1,6 @@
-Git/GitHub Workflows for R Users
+## Git/GitHub Workflows for R Users
 
-OUTLINE
+#### OUTLINE
 
 Joyce Robbins
 12/7/18
