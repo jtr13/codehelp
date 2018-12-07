@@ -35,13 +35,15 @@ str(df)
 
 ggplot(df, aes(chardata)) +
   geom_bar(color = mycolor, fill = myfill) + 
-  ggtitle("Default: character data in alphabetical order") +
-  theme_grey(14)
+  ggtitle("Default: alphabetical order") +
+  xlab("Character variable") +
+  theme_grey(12)
 
 ggplot(df, aes(factordata)) +
   geom_bar(color = mycolor, fill = myfill) + 
-  ggtitle("Default: factor data in factor level order") +
-  theme_grey(14)
+  ggtitle("Default: factor level order") +
+  xlab("Factor variable") +
+  theme_grey(12)
 
 ```
 

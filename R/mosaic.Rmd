@@ -2,7 +2,7 @@
 title: "Drawing a mosaic plot with `vcd::mosaic()`"
 author: "Joyce Robbins"
 date: "2/15/2018"
-output: github_document
+output: ../github_document
 ---
 
 ```{r setup, include=FALSE}
