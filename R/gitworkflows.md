@@ -1,11 +1,9 @@
-## Git/GitHub Workflows for R Users
-
-#### OUTLINE
+## Git/GitHub Workflows for R Users (DRAFT)
 
 Joyce Robbins
 12/7/18
 
-Note: This is an attempt to explain these workflows in as succinct a manner as possible for reviewers who are familiar with Git/GitHub and can provide feedback / suggest improvements in the workflows themselves (keeping in mind that these workflows are meant to be suitable for beginners). Therefore, I have not provided step-by-step, tutorial style instructions.
+Note: This is an attempt to explain beginner workflows in as succinct a manner as possible for reviewers who are familiar with Git/GitHub and can provide feedback / suggest improvements in the workflows themselves (remember: they should be suitable for beginners). As such, I have not provided step-by-step, tutorial style instructions.
 
 
 Workflows in increasing order of difficulty:
