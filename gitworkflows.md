@@ -5,6 +5,8 @@ Joyce Robbins
 
 Note: This is an attempt to outline beginner workflows in as succinct a manner as possible for reviewers who are familiar with Git/GitHub and can provide feedback / suggest improvements to the workflows themselves, rather than the how-to. As such, I have not provided step-by-step, tutorial style instructions. Eventually the ideas here will all be incorporated into a tutorial presentation, a draft of which is available here: [GitHubWorkflow.pdf](GitHubWorkflow.pdf).
 
+Feedback welcome by issue, pull request, or email: jtr13@columbia.edu
+
 Thank you for your help!
 
 Beginner workflows in increasing order of difficulty:
