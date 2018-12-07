@@ -8,3 +8,5 @@ Code tutorials
 [Drawing a mosaic plot with `vcd::mosaic()` tutorial](R/mosaic.md)
 
 [R Base Graphics Cheatsheet](R/BaseGraphicsCheatsheet.pdf)
+
+[Beginner Git Workflows](gitworkflows.md) DRAFT
