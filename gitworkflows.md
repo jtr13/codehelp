@@ -52,3 +52,11 @@ Method:
 *to be added*
 
 
+
+
+Notes on fixing things:
+
+Undo saved, uncommmitted changes:
+`git reset HEAD <file-name>`
+
+
