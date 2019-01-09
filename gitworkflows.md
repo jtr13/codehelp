@@ -54,9 +54,14 @@ Method:
 
 
 
-Notes on fixing things:
+*Notes on fixing things*
 
 Undo saved, uncommmitted changes:
-`git reset HEAD <file-name>`
+`git checkout -- <file-name>`
+(discards changes in working directory)
+
+Undo saved, committed changes:
+
+https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-commits-in-git/34547846
 
 

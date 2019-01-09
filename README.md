@@ -9,4 +9,4 @@ Code tutorials
 
 [R Base Graphics Cheatsheet](R/BaseGraphicsCheatsheet.pdf)
 
-[Beginner Git Workflows](gitworkflows.md) DRAFT
+[Beginner Git Workflows](gitworkflows.md) 
