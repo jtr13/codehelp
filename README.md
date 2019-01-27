@@ -9,4 +9,6 @@ Code tutorials
 
 [R Base Graphics Cheatsheet](R/BaseGraphicsCheatsheet.pdf)
 
-[Git with Joyce, RLadies, 1/9/18](GitHubWorkflow.pdf)
+[Git with Joyce, RLadies, 1/9/18, Part 1](GitHubWorkflow.pdf)
+
+[Git with Joyce, RLadies, 1/9/18, Part 2](GitHubWorkflowPt2.pdf)
