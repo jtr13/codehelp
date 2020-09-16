@@ -1,42 +1,43 @@
-Using `tidyr::gather()` to tidy data
+Using `tidyr::pivot_longer()` to tidy data
 ================
 Joyce Robbins
-originally published: 1/31/2018
 
   - [Example 1: City vs. Highway](#example-1-city-vs.-highway)
       - [Observe](#observe)
       - [Plan](#plan)
       - [Code](#code)
-  - [Heads up](#heads-up)
-      - [Not separating the messy data columns properly into “keep” and
-        “dump”.](#not-separating-the-messy-data-columns-properly-into-keep-and-dump.)
-      - [Missing *id* column](#missing-id-column)
+      - [Common problem: missing *id*
+        column](#common-problem-missing-id-column)
   - [Example 2: `MASS::painters`
     dataset](#example-2-masspainters-dataset)
       - [Observe](#observe-1)
       - [Plan](#plan-1)
       - [Code](#code-1)
 
-**`tidyr::gather()` has been superceded by `tidyr::pivot_longer()`.
-Please see [this tutorial on
-`pivot_longer()`](https://github.com/jtr13/codehelp/blob/master/R/pivot_longer.md)
-instead.**
+The [`tidyr::pivot_longer()`]() function offers substantial improvements
+over its predecessor `tidyr::gather()`. This tutorial updates a previous
+one I wrote on using
+[`gather()`](https://github.com/jtr13/codehelp/blob/master/R/gather.md).
+Most of the difficulties I observed with `gather()` have been eliminated
+in `pivot_longer()`, so this tutorial will be shorter than the one it
+replaces.
 
-This tutorial focuses on one function: `tidyr::gather()`, which is used
-to convert data from messy to tidy. I won’t get into the distinction
-here – I’m going to assume that you know the terms and just need help
-figuring how to get from A to B. If, however, this is all new to you, I
-suggest reading [“Tidy
+I also recommend reading the official [`pivot_longer()`
+vignette](https://tidyr.tidyverse.org/articles/pivot.html).
+
+`tidyr::pivot_longer()` is used to convert data from messy to tidy, or
+wide to long format (shhh, you didn’t hear me say those words.) [“Tidy
 Data”](https://www.jstatsoft.org/article/view/v059i10) by Hadley
-Wickham, the seminal paper on the topic, which lays out the concept in
-detail.
+Wickham, is the seminal paper on the topic, and lays out the concepts of
+messy vs. tidy in detail.
 
 ## Example 1: City vs. Highway
 
 ### Observe
 
-Before getting into the nitty-gritty of `gather()` let’s study what our
-messy data looks like, and what it will look like when it’s tidied:
+Before getting into the nitty-gritty of `pivot_longer()` let’s study
+what our messy data looks like, and what it will look like when it’s
+tidied:
 
 ![](../images/messyvstidy1.png)
 
@@ -60,7 +61,8 @@ Hopefully you noticed the following:
 
 Now here’s the trick: the only parts we need to concern ourselves with
 are 1. and 2.: deciding which columns to keep unchanged, and what names
-to give the new columns, which are called the *key* and *value* columns.
+to give the new columns, which are called the *name* and *value*
+columns.
 
 The columns to keep are the ones that are already tidy. The ones to dump
 are the ones that aren’t true variables but in fact are *levels* of
@@ -70,29 +72,29 @@ theory of tidy data. On the other hand, `id` should remain as is.
 
 The bottom line: **keep `id` as is**
 
-![](../images/messyvstidy3.png)
+![](../images/messyvstidy8.png)
 
-The second (and final) step is to choose names for the new *key* and
-*value* columns. We’ve already chosen `roadtype` for *key*; let’s pick
+The second (and final) step is to choose names for the new *name* and
+*value* columns. We’ve already chosen `roadtype` for *name*; let’s pick
 `mpg` for *value*. You can also choose to stick with the defaults for
-the new *key* and *value* column names: `key` and `value` (surprise).
+the new *name* and *value* column names: `name` and `value` (surprise).
 Using `key` and `value` may be helpful at first to keep track of which
 is which, though ultimately I find more descriptive names to be more
 useful.
 
-The bottom line: **key = `roadtype`, value = `mpg`**
+The bottom line: **names\_to = `roadtype`, values\_to = `mpg`**
 
-![](../images/messyvstidy4.png)
+![](../images/messyvstidy9.png)
 
 ### Code
 
 The code to carry out the transformation from messy to tidy is one call
-to `gather()`, with parameters that reflect our conclusions about the
-columns to keep and the names we’ve chosen:
+to `pivot_longer()`, with parameters that reflect our conclusions about
+the columns to keep and the names we’ve chosen:
 
 ``` r
 tidydata <- messydata %>% 
-  gather(key = "roadtype",  value = "mpg", -id)
+  pivot_longer(cols = !id, names_to = "roadtype",  values_to = "mpg")
 ```
 
 The most important thing to note is that *each parameter corresponds to
@@ -100,89 +102,54 @@ one of the columns in the tidy data set.*
 
 Now let’s look at them one at a time in more detail:
 
-`key = "roadtype"` sounds like it’s setting the *key* to a preexisting
-column called “roadtype”, but that’s not what’s going on. Rather, think
-of this as an instruction to *create a new key column and call it
-“roadtype”.*
+`!id` says “Don’t touch my `id` column\! Leave it as is\!”
 
-`value = "mpg"` likewise is an instruction to *create a new value column
-and call it “mpg”.*
+`names_to = "roadtype"` is an instruction to *create a new name column
+and call it “roadtype”.*
 
-`-id` is the piece that says “Don’t touch my `id` column\! Leave it as
-is\!”
+`values_to = "mpg"` likewise is an instruction to *create a new value
+column and call it “mpg”.*
 
 Nothing else needs to be specified: every value in a column not marked
 “don’t touch” will be moved to the *value* (“mpg”) column, paired with
 its old column name (in this case “city” or “hwy”) from the messy data
-set, which now appears in the *key* column.
+set, which now appears in the *name* column.
 
-## Heads up
-
-There are a few problems I’ve seen with the way in which people use
-`gather()`:
-
-### Not separating the messy data columns properly into “keep” and “dump”.
-
-If we had made this mistake in the example above, the result would be
-something like:
-
-``` r
-messydata %>% 
-  gather(key = "roadtype", value = "mpg")
-```
-
-    ## # A tibble: 9 x 2
-    ##   roadtype mpg  
-    ##   <chr>    <chr>
-    ## 1 id       car1 
-    ## 2 id       car2 
-    ## 3 id       car3 
-    ## 4 city     19   
-    ## 5 city     20   
-    ## 6 city     29   
-    ## 7 hwy      24   
-    ## 8 hwy      30   
-    ## 9 hwy      35
-
-Yikes, not what we wanted. Looking at the `mpg` column, we see that
-“car1”, “car2”, and “car3” don’t belong. The solution is to add the
-`-id` parameter – remember, think: “don’t touch `id`” – so that it isn’t
-“dumped” into the `key` column.
-
-Note: it is possible to specify the columns to *dump* rather then the
-columns to *keep*:
-
-``` r
-messydata %>% 
-  gather(key = "roadtype", value = "mpg", city, hwy)
-```
+Another option is to specify the columns to pivot, rather the columns to
+keep:
 
     ## # A tibble: 6 x 3
     ##   id    roadtype   mpg
     ##   <chr> <chr>    <dbl>
     ## 1 car1  city        19
-    ## 2 car2  city        20
-    ## 3 car3  city        29
-    ## 4 car1  hwy         24
-    ## 5 car2  hwy         30
+    ## 2 car1  hwy         24
+    ## 3 car2  city        20
+    ## 4 car2  hwy         30
+    ## 5 car3  city        29
     ## 6 car3  hwy         35
 
-I find this method less intuitive, but of course it’s your choice.
-
-### Missing *id* column
+### Common problem: missing *id* column
 
 Note in our example that the `id` column is important for linking the
 city and highway miles per gallon. For example, we might want to plot
 the data as follows, which requires knowing which car had which city and
 highway mpg:
 
-![](gather_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](pivot_longer_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Often, however, there is no `id` column: it’s not necessary since each
 row represents one item – a car in this case. If we try to tidy messy
 data without an id, it looks like this:
 
-![](../images/messyvstidy5.png)
+    ## # A tibble: 6 x 2
+    ##   roadtype   mpg
+    ##   <chr>    <dbl>
+    ## 1 city        19
+    ## 2 hwy         24
+    ## 3 city        20
+    ## 4 hwy         30
+    ## 5 city        29
+    ## 6 hwy         35
 
 The problem is that we’ve lost the natural connection we had between
 city and highway for each car since the two values no longer reside in
@@ -190,23 +157,21 @@ the same row. The solution here is to move the row names – or row
 numbers in this case – to a column to be used as an id:
 
 ``` r
-messy2 %>% rownames_to_column("id") %>% 
-  gather(key, value, -id)
+messydata %>% 
+  select("city", "hwy") %>% 
+  rownames_to_column("id") %>% 
+  pivot_longer(!id, names_to = "roadtype", values_to = "mpg")
 ```
 
     ## # A tibble: 6 x 3
-    ##   id    key   value
-    ##   <chr> <chr> <dbl>
-    ## 1 1     city     19
-    ## 2 2     city     20
-    ## 3 3     city     29
-    ## 4 1     hwy      24
-    ## 5 2     hwy      30
-    ## 6 3     hwy      35
-
-Note that we must specify the “don’t touch” id column that we just
-created. Also note that we used the default `key` and `value` column
-names rather than choose our own.
+    ##   id    roadtype   mpg
+    ##   <chr> <chr>    <dbl>
+    ## 1 1     city        19
+    ## 2 1     hwy         24
+    ## 3 2     city        20
+    ## 4 2     hwy         30
+    ## 5 3     city        29
+    ## 6 3     hwy         35
 
 ## Example 2: `MASS::painters` dataset
 
@@ -222,13 +187,15 @@ Let’s take the `painters` dataset from the **MASS** package:
 
 …and tidy it into four columns as such:
 
-    ##            Name School       Skill Score
-    ## 1      Da Udine      A Composition    10
-    ## 2      Da Vinci      A Composition    15
-    ## 3    Del Piombo      A Composition     8
-    ## 4     Del Sarto      A Composition    12
-    ## 5     Fr. Penni      A Composition     0
-    ## 6 Guilio Romano      A Composition    15
+    ## # A tibble: 6 x 4
+    ##   Name     School Skill       Score
+    ##   <chr>    <fct>  <chr>       <int>
+    ## 1 Da Udine A      Composition    10
+    ## 2 Da Udine A      Drawing         8
+    ## 3 Da Udine A      Colour         16
+    ## 4 Da Udine A      Expression      3
+    ## 5 Da Vinci A      Composition    15
+    ## 6 Da Vinci A      Drawing        16
 
 This example is a little more complex than the previous one, since it’s
 missing an *id* column, and there is more than one “keep” column. (You
@@ -262,26 +229,21 @@ library(MASS)
 library(tidyverse)
 tidypaint <- painters %>% 
   rownames_to_column("Name") %>% 
-  gather(key = "Skill", value = "Score", -Name, -School)
+  pivot_longer(cols = !c("Name", "School"), names_to = "Skill", values_to = "Score")
 ```
 
-The breakdown:
-
-![](../images/Inkedmessyvstidy8.jpg)
-
-Finally, if the visuals aren’t your style, here’s a running commentary
-of the instructions:
+The instructions:
 
 “Take the (messy) dataset `painters`. Move the contents of the rownames
-to a new column called `Name`. Now let’s start tidying by gathering
-multiple columns into *key-value* pairs. Do this by creating a new *key*
-column called `Skill`. While you’re at it, create a new *value* column
-called `Score`. Absolutely do not touch or change the `Name` and
-`School` columns (other than to replicate as necessary). It goes without
-saying that the four other column names will fill the new `Skill`
-column, and the values of those columns will fill the new `Score`
-column, since it’s understood from what I’ve said already\! Much
-appreciated\!”
+to a new column called `Name`. Tidy the data by a new *name* column
+called `Skill` and a new *value* column called `Score`. Do not touch or
+change the `Name` and `School` columns (other than to replicate as
+necessary).”
+
+The result:
+
+The four other column names will fill the new `Skill` column, and the
+values of those columns will fill the new `Score` column."
 
 Thank you to [@angelotrivelli](https://twitter.com/angelotrivelli)
 [@dch4n](https://twitter.com/@dch4n)
@@ -290,4 +252,7 @@ Thank you to [@angelotrivelli](https://twitter.com/angelotrivelli)
 [@kierisi](https://twitter.com/kierisi)
 [@s\_lump](https://twitter.com/s_lump) for providing feedback and
 helpful suggestions in response to [this Twitter
-post.](https://twitter.com/jtrnyc/status/958845845385940993)
+post](https://twitter.com/jtrnyc/status/958845845385940993) about my
+[`gather()`
+tutorial](https://github.com/jtr13/codehelp/blob/master/R/gather.md)
+upon which this tutorial is based.
