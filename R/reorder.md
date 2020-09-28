@@ -85,7 +85,9 @@ ggplot(mydf, aes(Skill, Num)) +
 The simplest way to get the order right depends on the situation at
 hand:
 
-#### (a) The row order is correct
+#### (a) The row order is correct (data is binned*)
+
+* = has a count or frequency column, in this case, `Num`
 
 In this case, we can simply indicate with `fct_inorder()` that we want
 the levels to be plotted in the order in which they appear in the data
@@ -112,7 +114,9 @@ ggplot(mydf, aes(fct_inorder(Skill), Num)) +
 
 <img src="reorder_files/figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-#### (b) Only one category is out of order
+#### (b) Only one category is out of order (data is binned*)
+
+* = has a count or frequency column, in this case, `Num`
 
 Often there’s just one level out of order. In the case below it’s “Under
 15 years”, which should be the first category in the chart, not the
@@ -217,7 +221,7 @@ Some important notes:
 Ordering by frequency count is the recommended approach for nominal
 data, that is, categories that are not naturally ordered.
 
-#### (a) Using `geom_col()`
+#### (a) Using `geom_col()`(binned data)
 
 Once again, the default is for the bars to be ordered alphabetically,
 which is not what we want. (Since the bar chart is horizontal the
